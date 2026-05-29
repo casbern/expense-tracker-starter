@@ -18,17 +18,15 @@ npm run preview   # preview production build locally
 
 ## Architecture
 
-Single-page React app (no routing). All state and logic lives in `src/App.jsx`:
+Single-page React app (no routing). State is split across components:
 
-- **Transactions state** — array of `{ id, description, amount, type, category, date }` objects; seeded with hardcoded data on load
-- **Summary** — income/expense/balance totals derived from state via `filter` + `reduce`
-- **Filters** — `filterType` and `filterCategory` state drives the visible subset of transactions
-- **Form** — controlled inputs add new transactions; resets to defaults on submit
+- **`src/App.jsx`** — root component; holds the `transactions` array state (seeded with hardcoded data) and passes it down. Renders `Summary`, `TransactionForm`, and `TransactionList`.
+- **`src/Summary.jsx`** — receives `transactions` and derives `totalIncome`, `totalExpenses`, and `balance` internally via `filter` + `reduce`.
+- **`src/TransactionForm.jsx`** — owns its own form state (`description`, `amount`, `type`, `category`); calls `onAdd(transaction)` prop on submit and resets to defaults.
+- **`src/TransactionList.jsx`** — receives `transactions` and owns its own `filterType` / `filterCategory` state; renders the filtered table.
 
 `src/App.css` contains all styles, including a `.delete-btn` rule that has no corresponding button in the JSX yet.
 
 ## Known intentional bugs
 
-- `amount` is stored as a **string** (directly from `<input type="number">`), so `reduce((sum, t) => sum + t.amount, 0)` concatenates instead of summing — fix by parsing to `Number` on add or on read.
-- Seed data also stores amounts as strings (`"5000"`, `"1200"`, etc.), compounding the above.
 - No delete functionality is wired up despite CSS for `.delete-btn` existing.
