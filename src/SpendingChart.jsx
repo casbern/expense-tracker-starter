@@ -1,6 +1,6 @@
 import { PieChart, Pie, Cell, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
-const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#A569BD', '#E67E22', '#2ECC71'];
+const COLORS = ['#6366F1', '#34D399', '#F87171', '#FBBF24', '#A78BFA', '#38BDF8', '#FB923C'];
 
 function SpendingChart({ transactions }) {
   const expensesByCategory = transactions
@@ -24,8 +24,20 @@ function SpendingChart({ transactions }) {
               <Cell key={index} fill={COLORS[index % COLORS.length]} />
             ))}
           </Pie>
-          <Tooltip formatter={(value) => `$${value}`} />
-          <Legend />
+          <Tooltip
+            formatter={(value) => `$${value}`}
+            contentStyle={{
+              background: '#16172A',
+              border: '1px solid rgba(255,255,255,0.12)',
+              borderRadius: '8px',
+              fontSize: '13px',
+              fontFamily: 'Sora, sans-serif',
+              color: '#ECEDF5',
+            }}
+            itemStyle={{ color: '#ECEDF5' }}
+            labelStyle={{ color: '#7678A0' }}
+          />
+          <Legend wrapperStyle={{ fontSize: '12px', fontFamily: 'Sora, sans-serif', color: '#7678A0' }} />
         </PieChart>
       </ResponsiveContainer>
     </div>
