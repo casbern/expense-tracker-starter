@@ -3,6 +3,7 @@ import './App.css'
 import Summary from './Summary'
 import TransactionForm from './TransactionForm'
 import TransactionList from './TransactionList'
+import SpendingChart from './SpendingChart'
 
 function App() {
   const [transactions, setTransactions] = useState([
@@ -20,6 +21,10 @@ function App() {
     setTransactions([...transactions, transaction]);
   };
 
+  const handleDelete = (id) => {
+    setTransactions(transactions.filter(t => t.id !== id));
+  };
+
   return (
     <div className="app">
       <h1>Finance Tracker</h1>
@@ -27,7 +32,8 @@ function App() {
 
       <Summary transactions={transactions} />
       <TransactionForm onAdd={handleAdd} />
-      <TransactionList transactions={transactions} />
+      <SpendingChart transactions={transactions} />
+      <TransactionList transactions={transactions} onDelete={handleDelete} />
     </div>
   );
 }
